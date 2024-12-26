@@ -1857,6 +1857,7 @@ impl<T> Future for Task<T> {
 /// # });
 /// ```
 
+#[allow(clippy::empty_line_after_doc_comments)]
 /// [`Task`]: crate::Task
 /// [`Cell`]: std::cell::Cell
 /// [`RefCell`]: std::cell::RefCell
@@ -1903,7 +1904,7 @@ impl<'a, T> ScopedTask<'a, T> {
     }
 }
 
-impl<'a, T> Future for ScopedTask<'a, T> {
+impl<T> Future for ScopedTask<'_, T> {
     type Output = T;
 
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {

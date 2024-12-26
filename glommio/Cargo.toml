@@ -15,7 +15,7 @@ keywords = ["linux", "rust", "async", "iouring", "thread-per-core"]
 categories = ["asynchronous", "concurrency", "os", "filesystem", "network-programming"]
 readme = "../README.md"
 # This is also documented in the README.md under "Supported Rust Versions"
-rust-version = "1.65"
+rust-version = "1.70"
 
 [dependencies]
 ahash = "0.7"
@@ -31,7 +31,6 @@ futures-lite = "1.12"
 intrusive-collections = "0.9"
 lazy_static = "1.4"
 libc = "0.2"
-lockfree = "0.5"
 log = "0.4"
 nix = { version = "0.27", features = ["event", "fs", "ioctl", "mman", "net", "poll", "sched", "time"] }
 pin-project-lite = "0.2"

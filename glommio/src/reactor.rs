@@ -2,8 +2,6 @@
 // under the MIT/Apache-2.0 License, at your convenience
 //
 // This product includes software developed at Datadog (https://www.datadoghq.com/). Copyright 2020 Datadog, Inc.
-//
-//!
 
 use std::{
     cell::RefCell,

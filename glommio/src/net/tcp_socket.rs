@@ -351,7 +351,7 @@ impl AcceptedTcpStream {
     pub fn peer_addr(&self) -> Result<SocketAddr> {
         let socket = unsafe { Socket::from_raw_fd(self.fd) };
         let sock_addr = socket.peer_addr()?;
-        socket.into_raw_fd();
+        let _ = socket.into_raw_fd();
         Ok(sock_addr.as_socket().unwrap())
     }
 
