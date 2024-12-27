@@ -47,6 +47,18 @@ impl Inner {
                 .insert_timer(self.id, self.when, waker);
         }
     }
+
+    pub(crate) fn remove_timer(&mut self) {
+        self.reactor.upgrade().unwrap().remove_timer(self.id);
+    }
+
+    pub(crate) fn regsiter_timer(&mut self, cx: &mut std::task::Context<'_>) {
+        self.reactor
+            .upgrade()
+            .unwrap()
+            .insert_timer(self.id, self.when, cx.waker().clone());
+        self.is_charged = true;
+    }
 }
 
 /// A timer that expires after a duration of time.
@@ -149,6 +161,23 @@ impl Timer {
         let mut inner = self.inner.borrow_mut();
         inner.reset(dur);
     }
+
+    /// Exposes method for supporting timers used by actors
+    /// needing to deregister a timer
+    pub fn deregister_timer(&mut self) {
+        self.inner.borrow_mut().remove_timer();
+    }
+
+    /// Exposes method for supporting timers used by actors
+    /// needing to register a timer
+    pub fn register_timer(&mut self, cx: &mut std::task::Context<'_>) {
+        self.inner.borrow_mut().regsiter_timer(cx);
+    }
+
+    #[allow(missing_docs)]
+    pub fn get_inner_instant(&self) -> Instant {
+        self.inner.borrow().when
+    }
 }
 
 impl Drop for Timer {
@@ -187,6 +216,8 @@ impl Future for Timer {
         }
     }
 }
+
+unsafe impl Send for Timer {}
 
 /// The TimerActionOnce struct provides an ergonomic way to fire an action at a
 /// later point in time.
